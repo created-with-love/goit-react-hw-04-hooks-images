@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './ImageGalleryItem.css';
 import authContext from '../Context';
 import 'lazysizes';
@@ -27,3 +28,10 @@ export default function ImageGalleryItem({
     </li>
   );
 }
+
+ImageGalleryItem.propTypes = {
+  id: PropTypes.number.isRequired,
+  webformatURL: PropTypes.string,
+  largeImageURL: PropTypes.string,
+  previewURL: PropTypes.string,
+};

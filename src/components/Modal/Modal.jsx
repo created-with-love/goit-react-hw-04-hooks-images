@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import './Modal.scss';
 import IconButton from '../IconButton/IconButton';
@@ -7,45 +7,42 @@ import { ReactComponent as CloseIcon } from '../../icons/close.svg';
 const modalRoot = document.querySelector('#modal-root');
 
 // переиспользуемая модалка, как children любой контент передаем
-export default class Modal extends Component {
-  componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDown);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDown);
-  }
-
-  // закрытие по клику эскпейпа
-  handleKeyDown = e => {
-    if (e.code === 'Escape') {
-      this.props.onClose();
+export default function Modal({ onClose, children }) {
+  useEffect(() => {
+    // закрытие по клику эскпейпа
+    function handleKeyDown(e) {
+      if (e.code === 'Escape') {
+        onClose();
+      }
     }
-  };
+    window.addEventListener('keydown', handleKeyDown);
+
+    return function clearup() {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  });
 
   //   закрытие по клику в бэкдроп
-  handelBackdropClick = e => {
+  function handelBackdropClick(e) {
     if (e.target === e.currentTarget) {
-      this.props.onClose();
+      onClose();
     }
-  };
-
-  render() {
-    // "портал" для модалки (убирает костыль с z-index и оверфлоу)
-    return createPortal(
-      <div className="Modal__backdrop" onClick={this.handelBackdropClick}>
-        <div className="Modal__content">
-          <IconButton
-            className="Modal__close IconButton"
-            aria-label="Close Modal icon"
-            onClick={this.props.onClose}
-          >
-            <CloseIcon width="32" height="32" fill="#black" />
-          </IconButton>
-          {this.props.children}
-        </div>
-      </div>,
-      modalRoot,
-    );
   }
+
+  // "портал" для модалки (убирает костыль с z-index и оверфлоу)
+  return createPortal(
+    <div className="Modal__backdrop" onClick={handelBackdropClick}>
+      <div className="Modal__content">
+        <IconButton
+          className="Modal__close IconButton"
+          aria-label="Close Modal icon"
+          onClick={onClose}
+        >
+          <CloseIcon width="32" height="32" fill="#black" />
+        </IconButton>
+        {children}
+      </div>
+    </div>,
+    modalRoot,
+  );
 }
