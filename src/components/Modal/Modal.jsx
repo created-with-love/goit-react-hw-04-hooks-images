@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import './Modal.scss';
 import IconButton from '../IconButton/IconButton';
@@ -20,7 +20,7 @@ export default function Modal({ onClose, children }) {
     return function clearup() {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  });
+  }, [onClose, children]);
 
   //   закрытие по клику в бэкдроп
   function handelBackdropClick(e) {

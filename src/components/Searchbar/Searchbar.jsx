@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { FaSearchengin } from 'react-icons/fa';
 import { IconContext } from 'react-icons';
 
 import './Searchbar.css';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function Searchbar({ onSubmit }) {
+function Searchbar({ onSubmit }) {
   const [query, setQuery] = useState('');
 
   const handleChange = e => {
@@ -49,3 +49,5 @@ export default function Searchbar({ onSubmit }) {
     </header>
   );
 }
+
+export default memo(Searchbar);

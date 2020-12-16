@@ -11,7 +11,6 @@ import Section from './components/Section';
 import Modal from './components/Modal';
 import DefaultEmptyField from './components/DefaultEmpyField';
 import authContext from './components/Context';
-import useFetchData from './components/hooks/useFetchData';
 
 export default function App() {
   const [gallery, setGallery] = useState([]);
@@ -23,38 +22,33 @@ export default function App() {
   const [selectedLowQImgUrl, setSelectedLowQImgUrl] = useState('');
 
   useEffect(() => {
-    if (search) {
-      fetchPictures();
+    if (!search) {
+      return;
     }
-  }, [search]);
 
-  function fetchPictures() {
     setLoading(true);
 
     fetchGallery(search, currentPage)
       .then(images => {
         setGallery(state => [...state, ...images]);
-        setPage(state => state + 1);
       })
       .catch(error => toast(error))
       .finally(() => {
-        onLoadMoreBtnClick();
         setLoading(false);
       });
-  }
+  }, [currentPage, search]);
 
   function onLoadMoreBtnClick() {
-    if (currentPage > 2) {
-      const options = {
-        top: null,
-        behavior: 'smooth',
-      };
+    setPage(state => state + 1);
+    const options = {
+      top: null,
+      behavior: 'smooth',
+    };
 
-      options.top = window.pageYOffset + document.documentElement.clientHeight;
-      setTimeout(() => {
-        window.scrollTo(options);
-      }, 1000);
-    }
+    options.top = window.pageYOffset + document.documentElement.clientHeight;
+    setTimeout(() => {
+      window.scrollTo(options);
+    }, 1000);
   }
 
   const handleSubmit = query => {
@@ -138,13 +132,15 @@ export default function App() {
             src={selectedLowQImgUrl}
             data-src={selectedImgURL}
             alt="fullsizeImage"
-            className="lazyload blur-up"
+            className="lazyload blur-up modal-img"
           ></img>
         </Modal>
       )}
 
       <Section>
-        {search && gallery.length > 11 && <Button onClick={fetchPictures} />}
+        {search && gallery.length > 11 && (
+          <Button onClick={onLoadMoreBtnClick} />
+        )}
       </Section>
     </>
   );
