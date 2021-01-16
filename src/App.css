@@ -15,10 +15,11 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
   color: #212121;
-  background-color: rgb(228, 226, 226);
-  background-image: url(./icons/tools.png);
+  background-image: url(./icons/4.jpg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-repeat: repeat;
+  background-color: #ce6503;
 }
 
 img {

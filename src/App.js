@@ -27,7 +27,6 @@ export default function App() {
     }
 
     setLoading(true);
-
     fetchGallery(search, currentPage)
       .then(images => {
         setGallery(state => [...state, ...images]);
@@ -45,7 +44,8 @@ export default function App() {
       behavior: 'smooth',
     };
 
-    options.top = window.pageYOffset + document.documentElement.clientHeight;
+    options.top =
+      window.pageYOffset + document.documentElement.clientHeight - 150;
     setTimeout(() => {
       window.scrollTo(options);
     }, 1000);
