@@ -1,16 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import './ImageGallery.css';
 import ImageGalleryItem from '../ImageGalleryItem';
 
-export default function ImageGallery({ gallery }) {
+interface IImageGallery {
+  gallery: {
+    id: number;
+    webformatURL: string;
+    largeImageURL: string;
+    previewURL: string;
+  }[];
+}
+
+export default function ImageGallery({ gallery }: IImageGallery) {
   return (
     <ul className="ImageGallery">
       {gallery.map(image => ImageGalleryItem(image))}
     </ul>
   );
 }
-
-ImageGallery.propTypes = {
-  gallery: PropTypes.arrayOf(PropTypes.object),
-};

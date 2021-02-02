@@ -4,7 +4,7 @@ $white: #fff;
 
 .IconButton {
   margin: 0;
-  padding: 10px;
+  padding: 0px;
   border: none;
   border-radius: 50%;
   color: $white;
@@ -15,6 +15,11 @@ $white: #fff;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  transition: all 150ms ease;
+
+  &:hover {
+    background-color: rgb(153, 2, 2);
+  }
 
   &__close {
     background-color: $red;
