@@ -1,15 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import './Button.css';
 
-export default function Button({ onClick }) {
+interface IButton {
+  onClick(): void;
+}
+
+export default function Button({ onClick }: IButton) {
   return (
     <button type="button" className="Button" onClick={onClick}>
       Load more
     </button>
   );
 }
-
-Button.propTypes = {
-  onClick: PropTypes.func.isRequired,
-};

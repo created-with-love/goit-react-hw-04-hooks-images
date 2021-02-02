@@ -1,16 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { MouseEvent, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import './Modal.scss';
 import IconButton from '../IconButton/IconButton';
-import { ReactComponent as CloseIcon } from '../../icons/close.svg';
+import { AiOutlineCloseCircle } from 'react-icons/ai';
 
 const modalRoot = document.querySelector('#modal-root');
 
+interface Props {
+  onClose(): void;
+  children?: React.ReactChild;
+}
+
 // переиспользуемая модалка, как children любой контент передаем
-export default function Modal({ onClose, children }) {
+export default function Modal({ onClose, children }: Props) {
   useEffect(() => {
     // закрытие по клику эскпейпа
-    function handleKeyDown(e) {
+    function handleKeyDown(e: KeyboardEvent) {
       if (e.code === 'Escape') {
         onClose();
       }
@@ -23,7 +28,7 @@ export default function Modal({ onClose, children }) {
   }, [onClose, children]);
 
   //   закрытие по клику в бэкдроп
-  function handelBackdropClick(e) {
+  function handelBackdropClick(e: MouseEvent): void {
     if (e.target === e.currentTarget) {
       onClose();
     }
@@ -38,11 +43,11 @@ export default function Modal({ onClose, children }) {
           aria-label="Close Modal icon"
           onClick={onClose}
         >
-          <CloseIcon width="32" height="32" fill="#black" />
+          <AiOutlineCloseCircle size="2.9em" fill="#black" />
         </IconButton>
         {children}
       </div>
     </div>,
-    modalRoot,
+    modalRoot as Element,
   );
 }

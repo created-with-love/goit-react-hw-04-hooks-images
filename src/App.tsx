@@ -12,8 +12,20 @@ import Modal from './components/Modal';
 import DefaultEmptyField from './components/DefaultEmpyField';
 import authContext from './components/Context';
 
-export default function App() {
-  const [gallery, setGallery] = useState([]);
+interface Image {
+  id: number;
+  webformatURL: string;
+  largeImageURL: string;
+  previewURL: string;
+}
+
+type OptionType = {
+  top: undefined | number;
+  behavior: 'smooth' | 'auto' | undefined;
+};
+
+const App = () => {
+  const [gallery, setGallery] = useState<Image[] | []>([]);
   const [currentPage, setPage] = useState(1);
   const [isLoading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
@@ -39,8 +51,8 @@ export default function App() {
 
   function onLoadMoreBtnClick() {
     setPage(state => state + 1);
-    const options = {
-      top: null,
+    const options: OptionType = {
+      top: undefined,
       behavior: 'smooth',
     };
 
@@ -51,7 +63,7 @@ export default function App() {
     }, 1000);
   }
 
-  const handleSubmit = query => {
+  const handleSubmit = (query: string): void => {
     if (query !== search) {
       setGallery([]);
       setSearch(query);
@@ -75,22 +87,24 @@ export default function App() {
     }
   };
 
-  const hadleImageClick = e => {
-    if (e.target.nodeName !== 'IMG') {
+  const hadleImageClick = (
+    e: React.MouseEvent<HTMLImageElement, MouseEvent>,
+  ) => {
+    if (e.currentTarget.nodeName !== 'IMG') {
       return;
     }
 
     e.preventDefault();
 
-    const fullImgLink = e.target.getAttribute('data-large');
-    const lowSrc = e.target.getAttribute('src');
+    const fullImgLink = e.currentTarget.getAttribute('data-large') as string;
+    const lowSrc = e.currentTarget.getAttribute('src') as string;
 
     setSelectedImgURL(fullImgLink);
     setSelectedLowQImgUrl(lowSrc);
     setModal(true);
   };
 
-  const toggleModal = () => {
+  const toggleModal = (): void => {
     setModal(!isModalOpen);
 
     if (isModalOpen) {
@@ -136,12 +150,13 @@ export default function App() {
           ></img>
         </Modal>
       )}
-
-      <Section>
-        {search && gallery.length > 11 && (
+      {search && gallery.length > 11 && (
+        <Section>
           <Button onClick={onLoadMoreBtnClick} />
-        )}
-      </Section>
+        </Section>
+      )}
     </>
   );
-}
+};
+
+export default App;

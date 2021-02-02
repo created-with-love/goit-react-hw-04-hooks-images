@@ -1,16 +1,22 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import './ImageGalleryItem.css';
 import authContext from '../Context';
 import 'lazysizes';
 import 'lazysizes/plugins/parent-fit/ls.parent-fit';
+
+interface Props {
+  id: number;
+  webformatURL: string;
+  largeImageURL: string;
+  previewURL: string;
+}
 
 export default function ImageGalleryItem({
   id,
   webformatURL,
   largeImageURL,
   previewURL,
-}) {
+}: Props) {
   return (
     <li className="ImageGalleryItem" key={`id-${id}`}>
       <authContext.Consumer>
@@ -28,10 +34,3 @@ export default function ImageGalleryItem({
     </li>
   );
 }
-
-ImageGalleryItem.propTypes = {
-  id: PropTypes.number.isRequired,
-  webformatURL: PropTypes.string,
-  largeImageURL: PropTypes.string,
-  previewURL: PropTypes.string,
-};

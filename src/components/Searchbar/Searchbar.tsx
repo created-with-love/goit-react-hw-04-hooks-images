@@ -5,15 +5,19 @@ import { IconContext } from 'react-icons';
 import './Searchbar.css';
 import 'react-toastify/dist/ReactToastify.css';
 
-function Searchbar({ onSubmit }) {
+interface Props {
+  onSubmit(query: string): void;
+}
+
+function Searchbar({ onSubmit }: Props) {
   const [query, setQuery] = useState('');
 
-  const handleChange = e => {
-    setQuery(e.currentTarget.value);
+  const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
+    setQuery(event.currentTarget.value);
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     onSubmit(query);
     setQuery('');
   };
